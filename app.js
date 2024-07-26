@@ -1,16 +1,25 @@
+const connectDB= require('./db/connect')
+require('dotenv').config()
 const express = require('express');
-const path = require('path');
 const app = express();
+const port = 5000;
+const tasks = require('./routes/tasks')
+app.use(express.json());
+app.use(express.static('./public'))
+app.use(express.urlencoded({extended : false}))
 
-port = 5000
+app.use('/api/v1/tasks', tasks)
 
-app.get('/', (req, res) => {
-    console.log('user hit the resource')
-    res.status(200).sendFile(path.resolve(__dirname, './public/index.html'))
-})
+const start= async ()=> {
+    try {
+        await connectDB (process.env.MONGO_URI)
+        app.listen(port, (req, res) => {
+            console.log(`app is listening on port ${port}...`)
+        })
+    } catch (error) {
+        console.log(error)
+        
+    }
+}
 
-app.listen(port, (req, res) => {
-    console.log(`App is listening on port ${port}`)
- 
-
-})
+start()
