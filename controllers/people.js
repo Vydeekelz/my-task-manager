@@ -22,11 +22,11 @@ const searchPeople = (req, res) => {
 
   if (search) {
       sortedPersons = sortedPersons.filter((person) => {
-          return person.name.startsWith(search)
+         person.name.startsWith(search)
       })
   }
   if (limit) { 
-      return sortedPersons = sortedPersons.slice(0, Number(limit))
+      sortedPersons = sortedPersons.slice(0, Number(limit))
   }
   console.log(sortedPersons)
   res.status(200).json(sortedPersons)
